@@ -1,5 +1,15 @@
 # Classic Arcade Game Clone Project
 
+# How to play the game?
+
+1. Open index.html in a browser (e.g. Google Chrome).
+
+2. Use arrow keys to try to get boy up to the blue part of the screen without colliding with the red beetles.
+
+3. If you succeed the number of winning strikes (in a row) is increased. The game starts over just as you succeed, and you get a congratulary message (that lasts for 5 seconds).
+
+4. If you fail the strike counter is set to 0 and the game is restarted.
+
 ## Table of Contents
 
 - [Instructions](#instructions)

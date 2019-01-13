@@ -1,4 +1,6 @@
-    // Enemies our player must avoid
+    /*
+     * Representation and state of the enemy.
+     */
     var Enemy = function() {
         // Variables applied to each of our instances go here,
         // we've provided one for you to get started
@@ -33,13 +35,19 @@
         this.sprite = 'images/enemy-bug.png';
     };
 
+    /*
+     * @description Resets the position of the enemy, note that it can 
+     * also be outside the screen with negative or too large x coordinates
+     */
     Enemy.prototype.resetPosition = function() {
         this.x = Math.floor(Math.random(1100))-300; // from -300 to 800, i.e. outside
         this.y = (1+Math.floor(Math.random(3)))*83-20; // from 0 to 2x83-20
     }
 
-    // Update the enemy's position, required method for game
-    // Parameter: dt, a time delta between ticks
+    /*
+     * @description Update the enemy's position, required method for game
+     * @param {dt} a time delta between ticks (varies by computer)
+     */
     Enemy.prototype.update = function(dt) {
         // You should multiply any movement by the dt parameter
         // which will ensure the game runs at the same speed for
@@ -59,15 +67,16 @@
         //console.log("THISX = ", this.inital_x, this.x);
     };
 
-    // Draw the enemy on the screen, required method for game
+    /*
+     * @description Draw the enemy on the screen
+     */
     Enemy.prototype.render = function() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
 
-    // Now write your own player class
-    // This class requires an update(), render() and
-    // a handleInput() method.
-
+     /*
+     * Representation and state of the player.
+     */
     var Player = function(allEnemies) {
         this.board_x = 0;
         this.board_y = 0;
@@ -89,21 +98,21 @@
         this.height = this.stop_y-this.start_y;
     }
 
+    /*
+     * @description Resets the position of the player
+     */
     Player.prototype.resetPosition = function() {
-        console.log("RESETPOSITION PLAYER..")
+        //console.log("RESETPOSITION PLAYER..")
         this.board_x = Math.floor(Math.random()*5); // from 0 to 4
         this.board_y = Math.floor(Math.random()*2)+4; // from 4 to 5
         this.x = this.board_x*this.TILE_WIDTH; // max x = 4x101, min x = 0, min start_x = 0
         this.y = this.board_y*this.TILE_WIDTH-this.YPOS_ADJUSTMENT; // max y 
     }
 
-    // Uncaught TypeError: Failed to execute 'drawImage' on 
-    // 'CanvasRenderingContext2D': The provided value is not of type 
-    // '(CSSImageValue or HTMLImageElement or SVGImageElement or 
-    // HTMLVideoElement or HTMLCanvasElement or ImageBitmap or 
-    // OffscreenCanvas)'
-
- 
+    /*
+     * @description updates board position based on keyboard input
+     * @param {keyCode} the string representation of a keyCode
+     */
     Player.prototype.handleInput = function(keyCode) {
         //console.log("KEYCODE:", keyCode);
         switch(keyCode) {
@@ -122,6 +131,9 @@
         }
     }
 
+    /*
+     * @description updates the screen position of the Player
+     */
     Player.prototype.update = function() {
         this.x = this.board_x*this.TILE_WIDTH; // max x = 4x101, min x = 0, min start_x = 0
         this.y = this.board_y*this.TILE_HEIGHT-this.YPOS_ADJUSTMENT; // max y 
@@ -129,9 +141,15 @@
         // check for collision with enemies, if collision reset position
     }
 
-    /* Box model detection, return true on collision */
+    /*
+     * @description Checks for (bounding box) collision between 
+     * the player and an enemy
+     * @param {player} object with contains position information
+     * @param {enemy} withcontains position information
+     * @returns {boolean} true if collision, otherwise false
+     */ 
     Player.prototype.checkCollision = function( player, enemy ) {
-        console.log("CHECKCOLL..");
+        //console.log("CHECKCOLL..");
         // the actual figure for both enemy and player start
         // not at the boundary of the figure, so need to calculate
         // actual positions to check.
@@ -170,6 +188,9 @@
     }
 
 
+    /*
+     * @description Checks collision between the player and all the enemies.
+     */
     Player.prototype.collidesWith = function() {
         // check if boundaries of player overlaps with boundaries of enemy
         // return true if overlap otherwise false
@@ -182,10 +203,20 @@
         return false;
     }
 
+    /*
+     * @description sleep method - used by win congratulation message
+     * @param {ms} - number of milliseconds to sleep
+     * @return {Promise} 
+     */
     Player.prototype.sleep = async function(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    /*
+     * @description method that provides a (temporary) congratulation message
+     * at the top of screen. It also (visually) updates the number of 
+     * win strikes in a row
+     */
     Player.prototype.congrats = async function() {
         var gameresult = document.querySelector('.gameresult');
         var num_win_strikes = document.querySelector('.num_win_strikes');
@@ -200,7 +231,9 @@
         this.check_for_collision = false;
     }
       
-
+    /*
+     * Renders the player.
+     */
     Player.prototype.render = async function() {
         //console.log(this.sprite, this.x, this.y);
         if(this.collidesWith()) {
@@ -211,22 +244,18 @@
 
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
-        console.log(this.x, this.y);
+        //console.log(this.x, this.y);
 
         if(this.y == 0) { // i.e. in the top row
             await this.congrats();
         }
-        // check for collision and reset
-        // check for win
     }
 
-
-    // Now instantiate your objects.
-    // Place all enemy objects in an array called allEnemies
-    // Place the player object in a variable called player
-
+    // Creates all the enemy objects
     var allEnemies = [new Enemy(), new Enemy(), new Enemy(), 
                    new Enemy(), new Enemy()];
+
+    // Creates the player
     var player = new Player(allEnemies); 
     player.resetPosition();
 
