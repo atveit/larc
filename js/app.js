@@ -90,6 +90,7 @@
     }
 
     Player.prototype.resetPosition = function() {
+        console.log("RESETPOSITION PLAYER..")
         this.board_x = Math.floor(Math.random()*5); // from 0 to 4
         this.board_y = Math.floor(Math.random()*2)+4; // from 4 to 5
         this.x = this.board_x*this.TILE_WIDTH; // max x = 4x101, min x = 0, min start_x = 0
@@ -130,6 +131,7 @@
 
     /* Box model detection, return true on collision */
     Player.prototype.checkCollision = function( player, enemy ) {
+        console.log("CHECKCOLL..");
         // the actual figure for both enemy and player start
         // not at the boundary of the figure, so need to calculate
         // actual positions to check.
@@ -163,6 +165,7 @@
             return false;
         }
 
+
         return true;
     }
 
@@ -179,12 +182,33 @@
         return false;
     }
 
-    Player.prototype.render = function() {
+    Player.prototype.sleep = async function(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    Player.prototype.congrats = async function() {
+        var gameresult = document.querySelector('.gameresult');
+        gameresult.innerHTML = "Congratulations, you won!"
+        this.resetPosition(); // start the game again
+        await this.sleep(2000);
+        gameresult.innerHTML = "";
+        this.check_for_collision = false;
+    }
+      
+
+    Player.prototype.render = async function() {
         //console.log(this.sprite, this.x, this.y);
         if(this.collidesWith()) {
-            this.resetPosition();
+            this.resetPosition(); // start the game again
         }
+
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
+        console.log(this.x, this.y);
+
+        if(this.y == 0) { // i.e. in the top row
+            await this.congrats();
+        }
         // check for collision and reset
         // check for win
     }
