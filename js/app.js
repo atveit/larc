@@ -2,6 +2,8 @@
 var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
+    this.x = 0; // TODO: set to random column or pos
+    this.y = 0; // TOOD: set to random eligble row
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -25,10 +27,28 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 
+var Player = function() {
+    this.sprite = 'images/char-horn-girl.png';
+}
+
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+Player.prototype.handleInput = function(keyCode) {
+
+}
+
+Player.prototype.update = function() {
+
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+
+var allEnemies = [];
+var player = new Player(); 
 
 
 
