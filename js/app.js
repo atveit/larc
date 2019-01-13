@@ -188,7 +188,12 @@
 
     Player.prototype.congrats = async function() {
         var gameresult = document.querySelector('.gameresult');
+        var num_win_strikes = document.querySelector('.num_win_strikes');
+        var updated_num_win_strikes = 1+parseInt(num_win_strikes.innerHTML)
+        num_win_strikes.innerHTML = updated_num_win_strikes;
+
         gameresult.innerHTML = "Congratulations, you won!"
+        gameresult.style.color = "blue";
         this.resetPosition(); // start the game again
         await this.sleep(2000);
         gameresult.innerHTML = "";
@@ -200,6 +205,8 @@
         //console.log(this.sprite, this.x, this.y);
         if(this.collidesWith()) {
             this.resetPosition(); // start the game again
+            var num_win_strikes = document.querySelector('.num_win_strikes');
+            num_win_strikes.innerHTML = "0";
         }
 
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
