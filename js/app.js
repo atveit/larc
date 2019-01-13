@@ -28,10 +28,21 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 
 var Player = function() {
-    this.sprite = 'images/char-horn-girl.png';
+    this.board_x = Math.floor(Math.random()*5); // from 0 to 4
+    this.board_y = Math.floor(Math.random()*2)+4; // from 4 to 5
+    this.x = this.board_x*101; // max x = 4x101, min x = 0, min start_x = 0
+    this.y = this.board_y*83-20; // max y = 4*101, min y = 0, min start_y = 3*101
+    this.sprite = 'images/char-boy.png';
 }
 
+// Uncaught TypeError: Failed to execute 'drawImage' on 
+// 'CanvasRenderingContext2D': The provided value is not of type 
+// '(CSSImageValue or HTMLImageElement or SVGImageElement or 
+// HTMLVideoElement or HTMLCanvasElement or ImageBitmap or 
+// OffscreenCanvas)'
+
 Player.prototype.render = function() {
+    console.log(this.sprite, this.x, this.y);
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
