@@ -4,11 +4,20 @@ var Enemy = function() {
     // we've provided one for you to get started
     this.x = 0; // TODO: set to random column or pos
     this.y = 0; // TOOD: set to random eligble row
+    this.x = Math.floor(Math.random()*1100)-300; // from -300 to 800, i.e. outside
+    this.y = (1+Math.floor(Math.random()*3))*83-20; // from 0 to 2x83-20
+
+    console.log(this.x, this.y);
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
 };
+
+Enemy.prototype.resetPosition = function() {
+    this.x = Math.floor(Math.random(1100))-300; // from -300 to 800, i.e. outside
+    this.y = (1+Math.floor(Math.random(3)))*83-20; // from 0 to 2x83-20
+}
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -28,11 +37,18 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 
 var Player = function() {
+    this.board_x = 0;
+    this.board_y = 0;
+    this.x = 0;
+    this.y = 0;
+    this.sprite = 'images/char-boy.png';
+}
+
+Player.prototype.resetPosition = function() {
     this.board_x = Math.floor(Math.random()*5); // from 0 to 4
     this.board_y = Math.floor(Math.random()*2)+4; // from 4 to 5
     this.x = this.board_x*101; // max x = 4x101, min x = 0, min start_x = 0
-    this.y = this.board_y*83-20; // max y = 4*101, min y = 0, min start_y = 3*101
-    this.sprite = 'images/char-boy.png';
+    this.y = this.board_y*83-20; // max y 
 }
 
 // Uncaught TypeError: Failed to execute 'drawImage' on 
@@ -58,8 +74,11 @@ Player.prototype.update = function() {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-var allEnemies = [];
+var allEnemies = [new Enemy(), new Enemy, new Enemy()];
 var player = new Player(); 
+player.resetPosition();
+
+console.log(allEnemies);
 
 
 
