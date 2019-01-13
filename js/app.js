@@ -195,7 +195,7 @@
         gameresult.innerHTML = "Congratulations, you won!"
         gameresult.style.color = "blue";
         this.resetPosition(); // start the game again
-        await this.sleep(2000);
+        await this.sleep(5000);
         gameresult.innerHTML = "";
         this.check_for_collision = false;
     }
