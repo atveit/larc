@@ -2,10 +2,11 @@
 var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-    this.x = 0; // TODO: set to random column or pos
-    this.y = 0; // TOOD: set to random eligble row
-    this.x = Math.floor(Math.random()*1100)-300; // from -300 to 800, i.e. outside
-    this.y = (1+Math.floor(Math.random()*3))*83-20; // from 0 to 2x83-20
+    this.inital_x = Math.floor(Math.random()*650)-600; 
+    this.initial_y = (1+Math.floor(Math.random()*3))*83-20;
+    this.x = this.inital_x;
+    this.y = this.initial_y;
+    this.x_speed = Math.floor(Math.random()*300)+10;
 
     console.log(this.x, this.y);
 
@@ -25,6 +26,16 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    //console.log("DT=", dt); // e.g. 0.017 on my mac
+    var increment = Math.floor(parseFloat(this.x_speed)*parseFloat(dt));
+    console.log("increment = ", increment, dt, this.x);
+    this.x += increment;
+    // https://stackoverflow.com/questions/7540397/convert-nan-to-0-in-javascript
+   // this.x = this.x || this.inital_x;
+    if(this.x > 1500) {
+        this.x = this.inital_x;
+    }
+    console.log("THISX = ", this.inital_x, this.x);
 };
 
 // Draw the enemy on the screen, required method for game
